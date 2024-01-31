@@ -10,7 +10,10 @@ with open("dna.txt", "r") as file:
             dict[i] += 1
 
 length = int(dict["A"]) + int(dict["T"]) + int(dict["G"]) + int(dict["C"])
-print(dict)
+print("A: " + str(dict["A"]))
+print("C: " + str(dict["C"]))
+print("T: " + str(dict["T"]))
+print("G: " + str(dict["G"]))
 print("The length is", length)
 
 
