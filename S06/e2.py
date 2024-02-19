@@ -5,20 +5,20 @@ class Seq:
     def __init__(self, strbases):
             self.strbases = strbases
 
-def print_seqs(seq_list):
-    for e in seq_list:
-        index = seq_list[e]
-        seq = e
-        for i in e:
-            length = len()
+    def print_seqs(seq_list):
+        count = 0
+        for e in seq_list:
+            index = seq_list.index(e)
+            seq = str(e)
+            length = len(seq)
+            print("sequence", index, "(lenght", length, ")", seq)
 
-        print(index, length, seq)
-
+        return index, length, seq
 
 
 seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
-p = print_seqs(seq_list)
-print(p)
+index, length, seq = Seq.print_seqs(seq_list)
+
 
 
 
