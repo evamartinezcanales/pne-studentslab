@@ -16,10 +16,20 @@ class Seq:
             seq = pattern * i
             print("sequence", str(i) + ":", "(Length: " + str(len(seq)) + ")", seq)
 
+# Function to print a sequence list in blue
+def print_blue(seq):
+    seq = "\033[34m" + str(seq) + "\033[0m"
+    print(seq)
+    return seq
 
+# Function to print a sequence list in green
+def print_green(seq):
+    seq = "\033[32m" + str(seq) + "\033[0m"
+    print(seq)
+    return seq
 
+# Usage of the code
+seq1 = print_blue(Seq("AT").generate_pattern("AT", 5))
+seq_2 = print_green(Seq("GC").generate_pattern("GC", 5))
 
-sequence1 = Seq("A").generate_pattern("A", 5)
-
-sequence2 = Seq("AC").generate_pattern("AC", 5)
 
