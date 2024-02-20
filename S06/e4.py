@@ -16,7 +16,7 @@ class Seq:
             seq = pattern * i
             print("sequence", str(i) + ":", "(Length: " + str(len(seq)) + ")", seq)
 
-# Function to print a sequence list in blue
+    # Function to print a sequence list in blue
 def print_blue(seq):
     seq = "\033[34m" + str(seq) + "\033[0m"
     print(seq)
@@ -24,9 +24,8 @@ def print_blue(seq):
 
 # Function to print a sequence list in green
 def print_green(seq):
-    seq = "\033[32m" + str(seq) + "\033[0m"
-    print(seq)
-    return seq
+    print("\033[32m" + str(seq) + "\033[0m")
+
 
 # Usage of the code
 seq1 = print_blue(Seq("AT").generate_pattern("AT", 5))
