@@ -11,7 +11,7 @@ class Seq:
     def __init__(self, strbases):
         check = check_seq(strbases)
         if strbases == "":
-            self.strbases = "Null"
+            self.strbases = "NULL"
         else:
             if check == True:
                 self.strbases = strbases

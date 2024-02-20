@@ -11,15 +11,16 @@ class Seq:
         return self.strbases
 
 
-    def generate_pattern(self, pattern, number):
+    def generate_pattern(self, number):
         for i in range(1, number + 1):
-            seq = pattern * i
+            seq = self.strbases * i
             print("sequence", str(i) + ":", "(Length: " + str(len(seq)) + ")", seq)
 
 
+seq1 = Seq("A")
+seq1 = seq1.generate_pattern(3)
 
+sequence2 = Seq("AC")
+seq2 = sequence2.generate_pattern(2)
 
-sequence1 = Seq("A").generate_pattern("A", 5)
-
-sequence2 = Seq("AC").generate_pattern("AC", 5)
 
