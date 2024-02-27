@@ -1,0 +1,2 @@
+Destination IP              Name (if known)                 Times
+8.8.8.8                         Google                       4,22

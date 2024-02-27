@@ -1,0 +1,4 @@
+Machine         Interface           Date            Place               IP
+phone           Wifi                27/2/2024       Fuenlabrada         10.0.4.140
+lab computer    wire                27/2/2024       Fuenlabrada         212.128.255.80
+
