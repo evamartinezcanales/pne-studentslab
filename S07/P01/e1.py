@@ -1,3 +1,3 @@
-from Seq1 import *
-seq = "ACTGA"
-print_seqs(seq)
+from Seq1 import Seq
+seq = Seq("ACTGA")
+print(seq)

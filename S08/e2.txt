@@ -1,2 +1,8 @@
 Destination IP              Name (if known)                 Times
 8.8.8.8                         Google                       4,22
+212.128.240.50              www.urjc.es                       17
+140.82.121.4                github.com                       49ms
+185.15.58.224               wikipedia.com                    36ms
+203.209.197.14              newcodomain                      tiempo agotado
+192.168.1.114               phone                              98ms
+192.168.1.1                    self

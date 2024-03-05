@@ -2,7 +2,7 @@ import socket
 
 # SERVER IP, PORT
 PORT = 8081
-IP = "212.128.255.64" # it depends on the machine the server is running
+IP = "127.0.0.7" # it depends on the machine the server is running, --> tiene que ser la de nuestro dispositivo
 
 # First, create the socket
 # We will always use these parameters: AF_INET y SOCK_STREAM
@@ -16,7 +16,7 @@ s.connect((IP, PORT))
 s.send(str.encode("HELLO FROM THE CLIENT!!!"))
 
 #Receive data from the server
-msg = s.recv(2048)
+msg = s.recv(2048)    #--> message enconded
 print("MESSAGE FROM THE SERVER:\n")
 print(msg.decode("utf-8"))
 
