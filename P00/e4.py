@@ -5,7 +5,7 @@ GENES = ["U5", "ADA", "FRAT1", "FXN"]
 BASES = ["A", "C", "T", "G"]
 
 for gene in GENES:
-    filename = os.path.join("..", "sequences", gene + ".txt")
+    filename = os.path.join(gene + ".txt")
     try:
         dna_sequence = seq_read_fasta(filename)
         print(f"Gene {gene}:")

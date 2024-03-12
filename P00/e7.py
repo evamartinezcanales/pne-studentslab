@@ -4,7 +4,7 @@ from Seq0 import *
 GENE = "U5"
 N = 20
 
-filename = os.path.join("..", "sequences", GENE + ".txt")
+filename = os.path.join(GENE + ".txt")
 try:
     dna_sequence = seq_read_fasta(filename)
     fragment = dna_sequence[:N]

@@ -5,7 +5,8 @@ N = 20
 
 dna_file = input("DNA file: ")
 try:
-    dna_sequence = seq_read_fasta(os.path.join("..", "sequences", dna_file))
+    filename = os.path.join(dna_file + ".txt")
+    dna_sequence = seq_read_fasta(filename)
     print(f"The first {N} bases are:")
     print(dna_sequence[:N])
 except IndexError:
