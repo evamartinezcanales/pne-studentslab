@@ -1,5 +1,5 @@
 from client0 import Client
-c = Client("127.0.0.1", 8080)
+c = Client("127.0.0.1", 8081)
 print(c.talk("PING"))
 print(c.talk("GET 3"))
 print(c.talk("INFO AACGATA"))
