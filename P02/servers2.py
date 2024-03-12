@@ -5,14 +5,12 @@ server_PORT = 8081
 server_IP = "127.0.0.1" #it depends on the machine the server is running
 MAX_OPEN_REQUESTS = 5
 
-# Counting the number of connections
 number_con = 0
 
 # create an INET, STREAMing socket
-serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  #creamos el socket del servidor
 try:
     serversocket.bind((server_IP, server_PORT))
-    # become a server socket
     # MAX_OPEN_REQUESTS connect requests before refusing outside connections
     serversocket.listen(MAX_OPEN_REQUESTS)
 
@@ -32,7 +30,7 @@ try:
         print(f"Message from client: {msg}")
 
         # Send the message
-        message = "Hello from the teacher's server\n"
+        message = "response"
         send_bytes = str.encode(message)
         # We must write bytes, not a string
         clientsocket.send(send_bytes)
@@ -44,3 +42,4 @@ except socket.error:
 except KeyboardInterrupt:
     print("Server stopped by the user")
     serversocket.close()
+
