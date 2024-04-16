@@ -5,7 +5,7 @@ import termcolor
 import random
 
 g = secret_number(random.randint(1, 100), [])
-IP = "127.0.0.1"
+IP = "192.168.1.122"
 PORT = 8081
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
