@@ -23,7 +23,7 @@ while True:
     print("Waiting for Clients to connect")
 
     try:
-        (cs, client_ip_port) = ls.accept()
+        (cs, client_ip_port) = ls.accept() #client_ip_port = address
 
     # -- Server stopped manually
     except KeyboardInterrupt:
