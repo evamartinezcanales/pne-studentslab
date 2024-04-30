@@ -30,7 +30,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         if resource == "/":
             # Read the file
             contents = Path('index.html').read_text()
-            content_type = 'text/html'
+            content_type = 'text/html'  # para que a la hora de mandar la respuesta indique el tipo de contenido
             error_code = 200
         elif resource == "/listusers":
             # Read the file

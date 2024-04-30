@@ -19,18 +19,18 @@ termcolor.cprint("Age: ", 'green', end="")
 print(person['age'])
 
 # Get the phoneNumber list
-phoneNumbers = person['phoneNumber']
+phoneNumbers = person['phoneNumber']  # lista de dicc
 
 # Print the number of elements in the list
 termcolor.cprint("Phone numbers: ", 'green', end='')
 print(len(phoneNumbers))
 
 # Print all the numbers
-for i, dictnum in enumerate(phoneNumbers):
+for i, dictnum in enumerate(phoneNumbers):  # i = posicion de la lista, dictnum = diccionario
     termcolor.cprint("  Phone " + str(i + 1) + ": ", 'blue')
 
     # The element num contains 2 fields: number and type
     termcolor.cprint("\t- Type: ", 'red', end='')
-    print(dictnum['type'])
+    print(dictnum['type'])  # accedes a la clave del diccionario
     termcolor.cprint("\t- Number: ", 'red', end='')
     print(dictnum['number'])

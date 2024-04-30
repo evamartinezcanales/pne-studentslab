@@ -58,4 +58,3 @@ for i, num in enumerate(phoneNumbers):
     print(num['type'])
     termcolor.cprint("    Number: ", 'red', end='')
     print(num['number'])
-c

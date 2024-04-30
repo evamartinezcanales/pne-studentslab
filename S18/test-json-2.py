@@ -10,13 +10,17 @@ person = json.loads(jsonstring)
 
 # Person is now a dictionary. We can read the values
 # associated to the fields 'Firstname', 'Lastname' and 'age'
-
+firstname = person['Firstname']
+lastname = person['Lastname']
+age = person['age']
+phoneNumber = person["phoneNumber"]
 # Print the information on the console, in colors
+
 print()
 termcolor.cprint("Name: ", 'green', end="")
-print(person['Firstname'], person['Lastname'])
+print(firstname, lastname)
 termcolor.cprint("Age: ", 'green', end="")
-print(person['age'])
+print(age)
 
 # Get the phoneNumber list
 phoneNumbers = person['phoneNumber']
@@ -26,6 +30,6 @@ termcolor.cprint("Phone numbers: ", 'green', end='')
 print(len(phoneNumbers))
 
 # Print all the phone numbers
-for i, num in enumerate(phoneNumbers):
+for i, num in enumerate(phoneNumbers):  # genera una lista de tuplas con la posición y su valor correcpondiente
     termcolor.cprint("  Phone " + str(i) + ": ", 'blue', end='')
     print(num)
