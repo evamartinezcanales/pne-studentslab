@@ -14,7 +14,8 @@ HTML_FOLDER = "html"
 EMSEMBL_SERVER = "rest.ensembl.org"
 RESOURCE_TO_ENSEMBL_REQUEST = {
     '/listSpecies': {'resource': "/info/species", 'params': "content-type=application/json"},
-    "/karyotype" : {"resource": "/info/assembly/", 'params': "content-type=application/json"}
+    "/karyotype" : {"resource": "/info/assembly/", 'params': "content-type=application/json"},
+    "/chromosomeLength" : {"resource": "/info/assembly/", 'params': "content-type=application/json"}
 }
 RESOURCE_NOT_AVAILABLE_ERROR = "Resource not available"
 ENSEMBL_COMMUNICATION_ERROR = "Error in communication with the Ensembl server"
@@ -86,7 +87,6 @@ def karyotype(endpoint, parameters):
     url = f"{request['resource']}{specie}?{request['params']}"
     error, data = server_request(EMSEMBL_SERVER, url)
     print(data)
-    name = []
     if not error:
         context = {"specie": specie,
                    "karyotype": data["karyotype"]
@@ -98,18 +98,26 @@ def karyotype(endpoint, parameters):
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
     return code, contents
 
+
 def chromosome_length(endpoint, parameters):
     request = RESOURCE_TO_ENSEMBL_REQUEST[endpoint]
     specie = parameters["species"][0]
-    chromosome = parameters["chromo"]
+    chromosome = parameters["chromo"][0]
     url = f"{request['resource']}{specie}?{request['params']}"
     error, data = server_request(EMSEMBL_SERVER, url)
     print(data)
+    top = data["top_level_region"]
+    for i in top:
+        name = i["name"]
+        if name == chromosome:
+            length = i["length"]
+
     if not error:
         context = {"specie": specie,
-                   "karyotype": data["karyotype"]
+                   "length": length,
+                   "number_chromosome": chromosome
                    }
-        contents = read_html_template("chromosome_length.html").render(context=context)
+        contents = read_html_template("chrom.html").render(context=context)
         code = HTTPStatus.OK
     else:
         contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
@@ -141,7 +149,7 @@ class MyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         elif endpoint == "/karyotype":
             code, contents = karyotype(endpoint, parameters)
         elif endpoint == "/chromosomeLength":
-            pass
+            code, contents = chromosome_length(endpoint, parameters)
         else:
             contents = handle_error(endpoint, RESOURCE_NOT_AVAILABLE_ERROR)
             code = HTTPStatus.NOT_FOUND
