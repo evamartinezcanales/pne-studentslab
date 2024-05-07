@@ -14,9 +14,11 @@ HTML_FOLDER = "html"
 EMSEMBL_SERVER = "rest.ensembl.org"
 RESOURCE_TO_ENSEMBL_REQUEST = {
     '/listSpecies': {'resource': "/info/species", 'params': "content-type=application/json"},
-    "/karyotype" : {"resource": "/info/assembly/", 'params': "content-type=application/json"},
-    "/chromosomeLength" : {"resource": "/info/assembly/", 'params': "content-type=application/json"}
-}
+    "/karyotype": {"resource": "/info/assembly/", 'params': "content-type=application/json"},
+    "/chromosomeLength": {"resource": "/info/assembly/", 'params': "content-type=application/json"},
+    "/geneSeq": {"resource": "/sequence/id/", 'params': "content-type=application/json"},
+    "/geneInfo": {"resource": "/overlap/id/", 'params': "content-type=application/json"}
+                 }
 RESOURCE_NOT_AVAILABLE_ERROR = "Resource not available"
 ENSEMBL_COMMUNICATION_ERROR = "Error in communication with the Ensembl server"
 
@@ -124,8 +126,51 @@ def chromosome_length(endpoint, parameters):
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
     return code, contents
 
-socketserver.TCPServer.allow_reuse_address = True
 
+def get_id(gene):
+    global id_
+    url = f"/homology/symbol/human/{gene}?content-type=application/json"
+    error, data = server_request(EMSEMBL_SERVER, url)
+    if not error:
+        data = data["data"]
+        for e in data:
+            id_ = str(e["id"])
+        print(id_)
+    return id_
+
+
+
+
+def geneSeq(endpoint, parameters):
+    gene = parameters["gene"][0]
+    print(gene)
+    id_2 = get_id(gene)
+    request = RESOURCE_TO_ENSEMBL_REQUEST[endpoint]
+    url = f"{request['resource']}{id_2}?{request['params']}"
+    error, data = server_request(EMSEMBL_SERVER, url)
+    seq = data["seq"]
+    if not error:
+        context = {"gene": gene,
+                   "seq": seq
+                   }
+        contents = read_html_template("human_seq.html").render(context=context)
+        code = HTTPStatus.OK
+    else:
+        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
+        code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
+    return code, contents
+
+def geneInfo(endpoint, parameters):
+    gene = parameters["gene"][0]
+    print(gene)
+    id_2 = get_id(gene)
+    request = RESOURCE_TO_ENSEMBL_REQUEST[endpoint]
+    url = f"{request['resource']}{id_2}?{request['params']}"
+    print(url)
+    error, data = server_request(EMSEMBL_SERVER, url)
+    print(data)
+
+socketserver.TCPServer.allow_reuse_address = True
 
 class MyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -150,6 +195,10 @@ class MyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             code, contents = karyotype(endpoint, parameters)
         elif endpoint == "/chromosomeLength":
             code, contents = chromosome_length(endpoint, parameters)
+        elif endpoint == "/geneSeq":
+            code, contents = geneSeq(endpoint, parameters)
+        elif endpoint == "/geneInfo":
+            geneInfo(endpoint, parameters)
         else:
             contents = handle_error(endpoint, RESOURCE_NOT_AVAILABLE_ERROR)
             code = HTTPStatus.NOT_FOUND
