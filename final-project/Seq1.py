@@ -86,13 +86,15 @@ class Seq:
     def info(self):
         s = f"Sequence: {self.strbases} \n" #tambien se puede poner self solo
         s += f"Total length: {self.len()}\n"
+        n = ""
         for base, count in self.count().items():
             try:
                 percentage = (count * 100) / self.len()
                 s += f"{base}: {count} ({percentage:.1f} %)\n" #redondea un decimal al hacer un print
+                n += f"{base}: {count} ({percentage:.1f} %)\n"
             except ZeroDivisionError:
                 print("null sequence or length 0")
-        return s
+        return s, n
 
 
 

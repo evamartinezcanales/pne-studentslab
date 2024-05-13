@@ -64,7 +64,7 @@ class MyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         elif resource == "/gene":
             try:
                 gene_name = arguments['gene_name'][0]
-                contents = read_html_template("gene.html")
+                contents = read_html_template("geneCalc.html")
                 file_name = os.path.join("..", "sequences", gene_name + ".txt")
                 s = Seq()
                 s.read_fasta(file_name)
