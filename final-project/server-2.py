@@ -256,6 +256,7 @@ class MyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         code = HTTPStatus.OK
         content_type = "text/html"
         contents = ""
+
         if endpoint == "/":
             file_path = os.path.join(HTML_FOLDER, "index.html")
             contents = Path(file_path).read_text()
