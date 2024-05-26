@@ -53,12 +53,20 @@ def server_request(server, url):
     return error, data
 
 
-def handle_error(endpoint, message):
+def handle_error(endpoint, message, json_format=False):
     context = {
         'endpoint': endpoint,
         'message': message
     }
-    return read_html_template("error.html").render(context=context)
+
+    code = HTTPStatus.NOT_FOUND
+    if json_format:
+        content_type = "application/json"
+        contents = json.dumps(context)
+    else:
+        content_type = "text/html"
+        contents = read_html_template("error.html").render(context=context)
+    return code, content_type, contents
 
 
 def list_species(endpoint, parameters):
@@ -78,12 +86,17 @@ def list_species(endpoint, parameters):
             'limit': limit,
             'name_species': name_species
         }
-        contents = read_html_template("species.html").render(context=context)
         code = HTTPStatus.OK
+        if 'json' in parameters and parameters['json'][0] == '1':
+            content_type = "application/json"
+            contents = json.dumps(context)
+        else:
+            content_type = "text/html"
+            contents = read_html_template("species.html").render(context=context)
     else:
-        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
+        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR, json_format='json' in parameters and parameters['json'][0] == '1')
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
-    return code, contents
+    return code, content_type, contents
 
 def karyotype(endpoint, parameters):
     request = RESOURCE_TO_ENSEMBL_REQUEST[endpoint]
@@ -94,12 +107,18 @@ def karyotype(endpoint, parameters):
         context = {"specie": specie,
                    "karyotype": data["karyotype"]
                    }
-        contents = read_html_template("karyotype.html").render(context=context)
+
         code = HTTPStatus.OK
+        if 'json' in parameters and parameters['json'][0] == '1':
+            content_type = "application/json"
+            contents = json.dumps(context)
+        else:
+            content_type = "text/html"
+            contents = read_html_template("karyotype.html").render(context=context)
     else:
-        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
+        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR, json_format='json' in parameters and parameters['json'][0] == '1')
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
-    return code, contents
+    return code, content_type, contents
 
 
 def chromosome_length(endpoint, parameters):
@@ -120,12 +139,18 @@ def chromosome_length(endpoint, parameters):
                    "length": length,
                    "number_chromosome": chromosome
                    }
-        contents = read_html_template("chrom.html").render(context=context)
+
         code = HTTPStatus.OK
+        if 'json' in parameters and parameters['json'][0] == '1':
+            content_type = "application/json"
+            contents = json.dumps(context)
+        else:
+            content_type = "text/html"
+            contents = read_html_template("chrom.html").render(context=context)
     else:
-        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
+        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR, json_format='json' in parameters and parameters['json'][0] == '1')
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
-    return code, contents
+    return code, content_type, contents
 
 
 def get_id(gene):
@@ -151,13 +176,18 @@ def geneSeq(endpoint, parameters):
             context = {"gene": gene,
                        "seq": seq
                        }
-            contents = read_html_template("human_seq.html").render(context=context)
             code = HTTPStatus.OK
+            if 'json' in parameters and parameters['json'][0] == '1':
+                content_type = "application/json"
+                contents = json.dumps(context)
+            else:
+                content_type = "text/html"
+                contents = read_html_template("human_seq.html").render(context=context)
         else:
-            contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
-            code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
+            contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR, json_format='json' in parameters and parameters['json'][0] == '1')
+            code = HTTPStatus.SERVICE_UNAVAILABLE
 
-    return code, contents
+    return code, content_type, contents
 
 def geneInfo(endpoint, parameters):
     gene = parameters["gene"][0]
@@ -178,12 +208,17 @@ def geneInfo(endpoint, parameters):
                    "length": length,
                    "id": id_2
                    }
-        contents = read_html_template("geneInfo.html").render(context=context)
         code = HTTPStatus.OK
+        if 'json' in parameters and parameters['json'][0] == '1':
+            content_type = "application/json"
+            contents = json.dumps(context)
+        else:
+            content_type = "text/html"
+            contents = read_html_template("geneInfo.html").render(context=context)
     else:
         contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
-    return code, contents
+    return code, content_type, contents
 
 
 def geneCalc(endpoint, parameters):
@@ -202,12 +237,17 @@ def geneCalc(endpoint, parameters):
                    "length": length,
                    "percentage": percentage
                    }
-        contents = read_html_template("geneCalc.html").render(context=context)
         code = HTTPStatus.OK
+        if 'json' in parameters and parameters['json'][0] == '1':
+            content_type = "application/json"
+            contents = json.dumps(context)
+        else:
+            content_type = "text/html"
+            contents = read_html_template("geneCalc.html").render(context=context)
     else:
-        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
+        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR, json_format='json' in parameters and parameters['json'][0] == '1')
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
-    return code, contents
+    return code, content_type, contents
 
 
 def geneList(endpoint, parameters):
@@ -232,12 +272,18 @@ def geneList(endpoint, parameters):
         context = {"names": names,
                    "chromosome_num": chromo
                    }
-        contents = read_html_template("geneList.html").render(context=context)
+
         code = HTTPStatus.OK
+        if 'json' in parameters and parameters['json'][0] == '1':
+            content_type = "application/json"
+            contents = json.dumps(context)
+        else:
+            content_type = "text/html"
+            contents = read_html_template("geneList.html").render(context=context)
     else:
-        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR)
+        contents = handle_error(endpoint, ENSEMBL_COMMUNICATION_ERROR, json_format='json' in parameters and parameters['json'][0] == '1')
         code = HTTPStatus.SERVICE_UNAVAILABLE  # Comment
-    return code, contents
+    return code, content_type, contents
 
 
 socketserver.TCPServer.allow_reuse_address = True
@@ -261,19 +307,19 @@ class MyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             file_path = os.path.join(HTML_FOLDER, "index.html")
             contents = Path(file_path).read_text()
         elif endpoint == "/listSpecies":
-            code, contents = list_species(endpoint, parameters)
+            code,content_type, contents = list_species(endpoint, parameters)
         elif endpoint == "/karyotype":
-            code, contents = karyotype(endpoint, parameters)
+            code, content_type, contents = karyotype(endpoint, parameters)
         elif endpoint == "/chromosomeLength":
-            code, contents = chromosome_length(endpoint, parameters)
+            code, content_type, contents = chromosome_length(endpoint, parameters)
         elif endpoint == "/geneSeq":
-            code, contents = geneSeq(endpoint, parameters)
+            code, content_type, contents = geneSeq(endpoint, parameters)
         elif endpoint == "/geneInfo":
-            code, contents = geneInfo(endpoint, parameters)
+            code, content_type, contents = geneInfo(endpoint, parameters)
         elif endpoint == "/geneCalc":
-            code, contents = geneCalc(endpoint, parameters)
+            code, content_type, contents = geneCalc(endpoint, parameters)
         elif endpoint == "/geneList":
-            code, contents = geneList(endpoint, parameters)
+            code, content_type, contents = geneList(endpoint, parameters)
         else:
             contents = handle_error(endpoint, RESOURCE_NOT_AVAILABLE_ERROR)
             code = HTTPStatus.NOT_FOUND
