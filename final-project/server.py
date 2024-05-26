@@ -294,4 +294,3 @@ with socketserver.TCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
         print()
         print("Stopped by the user")
         httpd.server_close()
-f
